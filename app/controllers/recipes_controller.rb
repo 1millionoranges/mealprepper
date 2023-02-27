@@ -14,6 +14,9 @@ class RecipesController < ApplicationController
         @recipe = Recipe.find(params[:id])
         @ingredients = @recipe.ingredients
     end
+    def index
+        @user_recipes = Recipe.where(user_id: current_user.id)
+    end
 
     private
     def recipe_params

@@ -1,7 +1,8 @@
-<h1>hello, <%=current_user%></h1>
+<h1>hello, <%=current_user.email%></h1>
 <h4>These are your preps:</h4>
 <ul>
 <%@preps.each do |p|%>
 <li><%= link_to p.name, p %></li>
 <% end%>
 </ul>
+<%= link_to "create new prep", new_prep_path %>

@@ -2,5 +2,10 @@
 <h2><%=@prep.name%></h1>
 <h4>recipes in this prep:</h4>
 <% @recipes.each do |r| %>
-<h4> <%=r.name%></h4>
+<h4> <%=link_to r.name, r%></h4>
 <% end%>
+add a recipe
+<%= form_with method: "patch" do |f| %>
+<%= select_tag(:recipe_id, options_for_select(@user_recipes_options))%>
+<%= f.submit %>
+<% end %>
