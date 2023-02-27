@@ -26,7 +26,7 @@ class RecipesController < ApplicationController
     def update
         @recipe = Recipe.find(params[:id])       
         @recipe.update(recipe_params)
-        if new_ingredient_params[:newingredient][:name]
+        if new_ingredient_params[:newingredient][:name] != ""
             p new_ingredient_params
             @ingredient = Ingredient.find_or_create_by(name: new_ingredient_params[:newingredient][:name])
             @new_ingred_list = @recipe.ingredients_lists.build
