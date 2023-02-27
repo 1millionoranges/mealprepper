@@ -1,0 +1,6 @@
+<h1>prep screen</h1>
+<h2><%=@prep.name%></h1>
+<h4>recipes in this prep:</h4>
+<% @recipes.each do |r| %>
+<h4> <%=r.name%></h4>
+<% end%>
