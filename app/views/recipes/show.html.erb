@@ -4,7 +4,12 @@
 <% end %>
 <h1><%=@recipe.name%></h1>
 <% if @recipe.public == 1 %><p> public recipe </p> <% end %>
-<h4><%= link_to "edit", edit_recipe_path(@recipe) if @owned%>
+<h4>
+<% if @owned %>
+    <%=link_to "edit", edit_recipe_path(@recipe)%>
+<% else %>
+    By <%=@recipe.user.email%>
+<% end %></h4>
 <h4>Ingredients:</h4>
 <ul>
 <%@ingredients_list.each do |i|%>

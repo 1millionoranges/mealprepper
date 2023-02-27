@@ -1,18 +1,38 @@
 <h1>prep screen</h1>
-<h2><%=@prep.name%></h1>
-<h4>recipes in this prep:</h4>
-
-<% @recipes.each do |r| %>
-    <%= form_with method: "patch" do |f| %>
-        <h4> <%=link_to r.name, r%> </h4>
-        <%= f.hidden_field "", name: "recipe_name", value: r.name%>
-        <%= f.submit "remove this recipe"%>
-    <% end%>
+<%= form_with url: "/saved_preps" do |f| %>
+    <%= f.hidden_field "prep", name: "saved_prep_id", value: @prep.id%>
+    <%= f.submit "Save Prep" %>
 <% end %>
-add a recipe
-<%= form_with method: "patch" do |f| %>
-<%= select_tag(:recipe_id, options_for_select(@user_recipes_options))%>
-<%= f.submit %>
+<h2><%=@prep.name%></h1>
+<% if @owned %>
+    <%= form_with method: "patch" do |f| %>
+        <%= f.hidden_field "toggle_public_button", name: "toggle_public", value: 1%>
+        <% if @prep.public == 0 %>
+            <%= f.submit "Make Public"%>
+            <% else %>
+            <%= f.submit "Make Private"%>
+        <% end %>
+    <% end %>
+<% else %>
+    <h4>By <%=@prep.user.email%></h4>
+<% end %>
+<h4>recipes in this prep:</h4>
+<% @recipes.each do |r| %>
+    <h4> <%=link_to r.name, r%> </h4>
+    <% if @owned %>
+        <%= form_with method: "patch" do |f| %>
+            
+            <%= f.hidden_field "", name: "recipe_name", value: r.name%>
+            <%= f.submit "remove this recipe"%>
+        <% end%>
+    <% end %>
+<% end %>
+<% if @owned %>
+    add a recipe
+    <%= form_with method: "patch" do |f| %>
+    <%= select_tag(:recipe_id, options_for_select(@user_recipes_options))%>
+    <%= f.submit %>
+    <% end %>
 <% end %>
 <ul>Ingredients needed for this prep:
 <% @ingredients.each do |i| %>
@@ -21,3 +41,5 @@ add a recipe
     <%= i.unit if i.unit %> </li>
 <% end %>
 </ul>
+
+<%= link_to "Discover more preps", "/discover_preps"%>

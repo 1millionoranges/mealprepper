@@ -6,3 +6,10 @@
 <% end%>
 </ul>
 <%= link_to "create new prep", new_prep_path %>
+<h4>These are your saved preps:</h4>
+<ul>
+<%@liked_preps.each do |p|%>
+<li><%= link_to p.name, p %></li>
+<% end%>
+</ul>
+<%= link_to "Discover more preps", "/discover_preps"%>
