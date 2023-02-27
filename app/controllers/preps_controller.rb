@@ -6,7 +6,7 @@ class PrepsController < ApplicationController
         @prep = Prep.find(params[:id])
         @recipes = @prep.recipes
         @user_recipes_options = current_user.recipes.map{|r| [r.name, r.id]}
-
+        @ingredients = @prep.ingredients_lists
     end
     def create
         @prep = current_user.preps.build(prep_params)

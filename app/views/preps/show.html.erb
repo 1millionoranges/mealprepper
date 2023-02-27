@@ -9,3 +9,10 @@ add a recipe
 <%= select_tag(:recipe_id, options_for_select(@user_recipes_options))%>
 <%= f.submit %>
 <% end %>
+<ul>Ingredients needed for this prep:
+<% @ingredients.each do |i| %>
+<li> <%= Ingredient.find(i.ingredient_id).name %> 
+    <%= ", " + i.amount.to_s if i.amount %> 
+    <%= i.unit if i.unit %> </li>
+<% end %>
+</ul>
