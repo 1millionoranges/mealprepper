@@ -1,5 +1,10 @@
+<%= form_with url: "/saved_recipes" do |f| %>
+    <%= f.hidden_field "recipe", name: "saved_recipe_id", value: @recipe.id%>
+    <%= f.submit "Save Recipe" %>
+<% end %>
 <h1><%=@recipe.name%></h1>
-<h4><%= link_to "edit", edit_recipe_path(@recipe) %>
+<% if @recipe.public == 1 %><p> public recipe </p> <% end %>
+<h4><%= link_to "edit", edit_recipe_path(@recipe) if @owned%>
 <h4>Ingredients:</h4>
 <ul>
 <%@ingredients_list.each do |i|%>

@@ -11,6 +11,9 @@
   </head>
 
   <body>
+    <%= form_with url: '/users/sign_out', method: "DELETE" do |f| %>
+      <%= f.submit "Log out" %>
+    <% end %>
     <%= link_to "my preps", preps_path %>
     <%= link_to "my recipes", recipes_path %>
     <%= yield %>

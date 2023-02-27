@@ -1,6 +1,7 @@
 <%= form_with model: @recipe do |f| %>
     <h4>Name:</h4>
     <%= f.text_field :name  %>
+    <p>Make this public? <%= f.check_box :public %></p>
     <h4>Ingredients:</h4>
     <ul>
     <%= f.fields_for :ingredients_lists, @ingredients_lists do |f2|%>

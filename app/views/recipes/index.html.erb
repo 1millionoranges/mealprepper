@@ -6,3 +6,11 @@
 <% end %>
 </ul>
 <%= link_to "create new recipe", new_recipe_path %>
+
+<ul>
+<h4>Liked Recipes:</h4>
+<%@liked_recipes.each do |r|%>
+<li><%= link_to r.name, r %></li>
+<% end %>
+</ul>
+<%= link_to "Discover new recipes", "/discover"%>

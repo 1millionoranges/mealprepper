@@ -13,10 +13,14 @@ class RecipesController < ApplicationController
     def show
         @recipe = Recipe.find(params[:id])
         @ingredients_list = @recipe.ingredients_lists
-        
+        @owned = (@recipe.user_id == current_user.id)
     end
     def index
-        @user_recipes = Recipe.where(user_id: current_user.id)
+        @user_recipes = current_user.recipes
+        @liked_recipes = current_user.liked_recipes
+    end
+    def public_index
+        @recipes = Recipe.where(public: true)
     end
     def edit
         @recipe = Recipe.find(params[:id])
@@ -40,7 +44,7 @@ class RecipesController < ApplicationController
     end
     private
     def recipe_params
-        params.require(:recipe).permit(:name, :user_id, :body , ingredients_lists_attributes: [:id, :ingredient_id, :recipe_id, :amount, :unit, :_destroy])
+        params.require(:recipe).permit(:public, :name, :user_id, :body , ingredients_lists_attributes: [:id, :ingredient_id, :recipe_id, :amount, :unit, :_destroy])
     end
     def new_ingredient_params
         params.require(:recipe).permit(newingredient: [:name, :unit, :amount])
