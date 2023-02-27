@@ -1,4 +1,5 @@
 <h1><%=@recipe.name%></h1>
+<h4><%= link_to "edit", edit_recipe_path(@recipe) %>
 <h4>Ingredients:</h4>
 <ul>
 <%@ingredients.each do |i|%>

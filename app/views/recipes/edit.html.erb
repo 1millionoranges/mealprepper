@@ -1,0 +1,17 @@
+<%= form_with model: @recipe do |f| %>
+    <h4>Name:</h4>
+    <%= f.text_field :name  %>
+    <h4>Ingredients:</h4>
+    <ul>
+    <% @ingredients.each do |i| %>
+    <li><%= i.name %>  <%= f.button "Delete Ingredient", value: i.name%> </li>
+    <% end %>
+    </ul>
+    <%= f.fields_for :ingredient do |f2| %>
+        <%= f2.text_field :name %>
+        <%= f2.submit "Add Ingredient"%>
+    <% end %>
+    <h4>Steps:</h4>
+    <p><%= f.text_field :body %></p>
+    <%= f.submit %>
+<% end %>
