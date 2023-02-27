@@ -2,8 +2,8 @@
 <h4><%= link_to "edit", edit_recipe_path(@recipe) %>
 <h4>Ingredients:</h4>
 <ul>
-<%@ingredients.each do |i|%>
-    <li><%=i.name%></li>
+<%@ingredients_list.each do |i|%>
+    <li><%=i.ingredient.name%>, <%= i.amount%> <%= i.unit%> </li>
 <%end%>
 </ul>
 <h4>Steps:</h4>

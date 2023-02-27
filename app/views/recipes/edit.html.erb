@@ -3,14 +3,20 @@
     <%= f.text_field :name  %>
     <h4>Ingredients:</h4>
     <ul>
-    <% @ingredients.each do |i| %>
-    <li><%= i.name %>  <%= f.button "Delete Ingredient", value: i.name%> </li>
-    <% end %>
+    <%= f.fields_for :ingredients_lists, @ingredients_lists do |f2|%>
+
+        <li><%= @ingredients_lists[f2.index].ingredient.name %>     <%= f2.number_field :amount %> <%= f2.text_field :unit %> Delete: <%= f2.check_box :_destroy %></li>
+    <%end%>
     </ul>
-    <%= f.fields_for :ingredient do |f2| %>
-        <%= f2.text_field :name %>
-        <%= f2.submit "Add Ingredient"%>
-    <% end %>
+    <%= f.fields_for :ingredients_list do |f3| %>
+        New Ingredient name:
+        <%= f.text_field "newingredient[name]" %>
+        
+        Amount:
+        <%= f.number_field "newingredient[amount]" %>
+        Unit:
+        <%= f.text_field "newingredient[unit]" %>
+    <% end %> 
     <h4>Steps:</h4>
     <p><%= f.text_field :body %></p>
     <%= f.submit %>

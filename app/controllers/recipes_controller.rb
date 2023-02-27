@@ -12,35 +12,37 @@ class RecipesController < ApplicationController
     end
     def show
         @recipe = Recipe.find(params[:id])
-        @ingredients = @recipe.ingredients
+        @ingredients_list = @recipe.ingredients_lists
+        
     end
     def index
         @user_recipes = Recipe.where(user_id: current_user.id)
     end
     def edit
         @recipe = Recipe.find(params[:id])
-        @ingredients = @recipe.ingredients
+        
+        @ingredients_lists = @recipe.ingredients_lists
     end
     def update
-        @recipe = Recipe.find(params[:id])
-        if params[:commit] == "Add Ingredient"
-            @ingredient = Ingredient.find_or_create_by(name: recipe_params[:ingredient][:name])
-        
-            @il = IngredientsList.new(recipe_id: @recipe.id, ingredient_id: @ingredient.id)
-            @il.save
-            @ingredients = @recipe.ingredients
-            redirect_to edit_recipe_path(@recipe)
-        elsif params[:commit] == "Update Recipe"
-            @recipe.update(recipe_params)
-        else
-            @ingredient = Ingredient.find_by(name: params[:button]) 
-            @il = IngredientsList.find_by(ingredient_id: @ingredient.id, recipe_id: @recipe.id)
-            @il.delete
-            redirect_to edit_recipe_path(@recipe)
+        @recipe = Recipe.find(params[:id])       
+        @recipe.update(recipe_params)
+        if new_ingredient_params[:newingredient][:name]
+            p new_ingredient_params
+            @ingredient = Ingredient.find_or_create_by(name: new_ingredient_params[:newingredient][:name])
+            @new_ingred_list = @recipe.ingredients_lists.build
+            @new_ingred_list.ingredient_id = @ingredient.id
+            @new_ingred_list.update(amount:  new_ingredient_params[:newingredient][:amount], unit: new_ingredient_params[:newingredient][:unit])
+            @new_ingred_list.save
         end
+        redirect_to @recipe
+
+
     end
     private
     def recipe_params
-        params.require(:recipe).permit(:name, :user_id, :body, ingredient: :name)
+        params.require(:recipe).permit(:name, :user_id, :body , ingredients_lists_attributes: [:id, :ingredient_id, :recipe_id, :amount, :unit, :_destroy])
+    end
+    def new_ingredient_params
+        params.require(:recipe).permit(newingredient: [:name, :unit, :amount])
     end
 end
