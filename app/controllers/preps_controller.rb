@@ -21,9 +21,18 @@ class PrepsController < ApplicationController
     end
     def update
         @prep = Prep.find(params[:id])
-        @rl = @prep.recipe_lists.build(recipe_id: params[:recipe_id])
-        @rl.save
-        redirect_to @prep
+        if params[:commit] == "remove this recipe"
+            p "removing recipe"
+            recipe = Recipe.find_by(name: params[:recipe_name])
+            recipe_list = RecipeList.where(prep_id: @prep.id, recipe_id: recipe.id)
+            RecipeList.delete(recipe_list.first)
+            redirect_to @prep
+        else
+            
+            @rl = @prep.recipe_lists.build(recipe_id: params[:recipe_id])
+            @rl.save
+            redirect_to @prep
+        end
     end
     private
     def prep_params

@@ -1,9 +1,14 @@
 <h1>prep screen</h1>
 <h2><%=@prep.name%></h1>
 <h4>recipes in this prep:</h4>
+
 <% @recipes.each do |r| %>
-<h4> <%=link_to r.name, r%></h4>
-<% end%>
+    <%= form_with method: "patch" do |f| %>
+        <h4> <%=link_to r.name, r%> </h4>
+        <%= f.hidden_field "", name: "recipe_name", value: r.name%>
+        <%= f.submit "remove this recipe"%>
+    <% end%>
+<% end %>
 add a recipe
 <%= form_with method: "patch" do |f| %>
 <%= select_tag(:recipe_id, options_for_select(@user_recipes_options))%>
