@@ -1,4 +1,7 @@
 <h1>Public Preps:</h1>
+<ul>
 <% @preps.each do |p| %>
-<%= link_to p.name + " by " + p.user.email, p%>
+<li><%= link_to p.name + " by " + p.user.email, p%></li>
+
 <% end %>
+</ul>

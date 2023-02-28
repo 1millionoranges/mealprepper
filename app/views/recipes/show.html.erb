@@ -1,6 +1,13 @@
-<%= form_with url: "/saved_recipes" do |f| %>
-    <%= f.hidden_field "recipe", name: "saved_recipe_id", value: @recipe.id%>
-    <%= f.submit "Save Recipe" %>
+<% if !@saved%>
+    <%= form_with url: "/saved_recipes" do |f| %>
+        <%= f.hidden_field "recipe", name: "saved_recipe_id", value: @recipe.id%>
+        <%= f.submit "Save Recipe" %>
+    <% end %>
+<%else%>
+    <%= form_with url: "/saved_recipes", method: "delete" do |f| %>
+        <%= f.hidden_field "recipe", name: "saved_recipe_id", value: @recipe.id%>
+        <%= f.submit "Unsave Recipe" %>
+    <% end %>
 <% end %>
 <h1><%=@recipe.name%></h1>
 <% if @recipe.public == 1 %><p> public recipe </p> <% end %>

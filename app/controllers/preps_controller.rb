@@ -9,6 +9,7 @@ class PrepsController < ApplicationController
         @user_recipes_options = liked_or_saved.map{|r| [r.name, r.id]}
         @ingredients = @prep.ingredients_lists
         @owned = (@prep.user_id == current_user.id)
+        @saved = SavedPrep.where(user_id: current_user.id, prep_id: @prep.id).any?
     end
     def create
         @prep = current_user.preps.build(prep_params)

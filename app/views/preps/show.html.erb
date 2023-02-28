@@ -1,9 +1,18 @@
-<h1>prep screen</h1>
-<%= form_with url: "/saved_preps" do |f| %>
-    <%= f.hidden_field "prep", name: "saved_prep_id", value: @prep.id%>
-    <%= f.submit "Save Prep" %>
-<% end %>
 <h2><%=@prep.name%></h1>
+<% if !@saved %>
+    <%= form_with url: "/saved_preps" do |f| %>
+        <%= f.hidden_field "prep", name: "saved_prep_id", value: @prep.id%>
+        <%= f.submit "Save Prep" %>
+    <% end %>
+<% else %>
+    <%= form_with url: "/saved_preps", method: "DELETE" do |f| %>
+        <%= f.hidden_field "prep", name: "saved_prep_id", value: @prep.id%>
+        <%= f.submit "Unsave Prep" %>
+    <% end %>
+<% end %>
+
+
+
 <% if @owned %>
     <%= form_with method: "patch" do |f| %>
         <%= f.hidden_field "toggle_public_button", name: "toggle_public", value: 1%>
@@ -18,14 +27,14 @@
 <% end %>
 <h4>recipes in this prep:</h4>
 <% @recipes.each do |r| %>
-    <h4> <%=link_to r.name, r%> </h4>
+    <h4> <%=link_to r.name, r%>
     <% if @owned %>
         <%= form_with method: "patch" do |f| %>
             
             <%= f.hidden_field "", name: "recipe_name", value: r.name%>
             <%= f.submit "remove this recipe"%>
         <% end%>
-    <% end %>
+    <% end %> </h4>
 <% end %>
 <% if @owned %>
     add a recipe
@@ -42,4 +51,3 @@
 <% end %>
 </ul>
 
-<%= link_to "Discover more preps", "/discover_preps"%>

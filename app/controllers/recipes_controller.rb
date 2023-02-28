@@ -14,6 +14,8 @@ class RecipesController < ApplicationController
         @recipe = Recipe.find(params[:id])
         @ingredients_list = @recipe.ingredients_lists
         @owned = (@recipe.user_id == current_user.id)
+        p SavedRecipe.where(recipe_id: @recipe.id, user_id: current_user.id)
+        @saved = SavedRecipe.where(recipe_id: @recipe.id, user_id: current_user.id).any?
     end
     def index
         @user_recipes = current_user.recipes
