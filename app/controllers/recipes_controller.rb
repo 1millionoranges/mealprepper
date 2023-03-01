@@ -28,7 +28,7 @@ class RecipesController < ApplicationController
         end
     end
     def public_index
-        @recipes = Recipe.where(public: true)
+        @recipes = Recipe.where(public: true).order_by()
     end
     def edit
         @recipe = Recipe.find(params[:id])
@@ -38,16 +38,20 @@ class RecipesController < ApplicationController
     def update
         @recipe = Recipe.find(params[:id])       
         @recipe.update(recipe_params)
-        if new_ingredient_params[:newingredient][:name] != ""
-            p new_ingredient_params
-            @ingredient = Ingredient.find_or_create_by(name: new_ingredient_params[:newingredient][:name])
-            @new_ingred_list = @recipe.ingredients_lists.build
-            @new_ingred_list.ingredient_id = @ingredient.id
-            @new_ingred_list.update(amount:  new_ingredient_params[:newingredient][:amount], unit: new_ingredient_params[:newingredient][:unit])
-            @new_ingred_list.save
-        end
-        redirect_to @recipe
+        if params[:commit] == "Add ingredient"
+            ni_params = new_ingredient_params
+            p ni_params
+            ni_params[:ingredients_list][:ingredient_id] = Ingredient.find_or_create_by(name: ni_params[:ingredients_list][:name]).id
+            ni_params[:ingredients_list][:recipe_id] = @recipe.id
+            ni_params[:ingredients_list].delete(:name)
 
+            @il = IngredientsList.new(ni_params[:ingredients_list])
+            p @il
+            @il.save
+            redirect_to edit_recipe_path(@recipe)
+        else
+            redirect_to @recipe
+        end
 
     end
     private
@@ -55,7 +59,7 @@ class RecipesController < ApplicationController
         params.require(:recipe).permit(:public, :name, :user_id, :body , ingredients_lists_attributes: [:id, :ingredient_id, :recipe_id, :amount, :unit, :_destroy])
     end
     def new_ingredient_params
-        params.require(:recipe).permit(newingredient: [:name, :unit, :amount])
+        params.require(:recipe).permit(ingredients_list: [:name, :unit, :amount])
     end
     def owned_by_current_user?
         if current_user

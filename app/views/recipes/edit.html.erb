@@ -9,15 +9,16 @@
         <li><%= @ingredients_lists[f2.index].ingredient.name %>     <%= f2.number_field :amount %> <%= f2.text_field :unit %> Delete: <%= f2.check_box :_destroy %></li>
     <%end%>
     </ul>
-    <%= f.fields_for :ingredients_list do |f3| %>
+
+    <%= f.fields_for :ingredients_list  do |f3| %>
         New Ingredient name:
-        <%= f.text_field "newingredient[name]" %>
-        
+        <%= f3.text_field :name %>
         Amount:
-        <%= f.number_field "newingredient[amount]" %>
+        <%= f3.number_field :amount %>
         Unit:
-        <%= f.text_field "newingredient[unit]" %>
-    <% end %> 
+        <%= f3.text_field :unit %>
+        <%=f3.submit "Add ingredient"%>
+    <% end %>
     <h4>Steps:</h4>
     <p><%= f.text_field :body %></p>
     <%= f.submit %>
