@@ -11,8 +11,10 @@ class PrepsController < ApplicationController
         @recipes = @prep.recipes
         @ingredients = @prep.ingredients_lists
         if current_user 
-            liked_or_saved = current_user.recipes + current_user.liked_recipes
-            @user_recipes_options = liked_or_saved.map{|r| [r.name, r.id]}
+            @user_recipes_options = current_user.recipes.map{|r| [r.name, r.id]}
+            @liked_recipes_options = current_user.liked_recipes.map{|r| [r.name, r.id]}
+            @created_or_liked_recipes_options = [["Your recipes"] + [@user_recipes_options]] + [["Saved recipes"] + [@liked_recipes_options]]
+            p @created_or_liked_recipes_options
             @owned = (@prep.user_id == current_user.id)
             @saved = SavedPrep.where(user_id: current_user.id, prep_id: @prep.id).any?
         end

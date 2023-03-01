@@ -40,7 +40,7 @@
 <% if @owned %>
     add a recipe
     <%= form_with method: "patch" do |f| %>
-    <%= select_tag(:recipe_id, options_for_select(@user_recipes_options))%>
+    <%= f.select(:recipe_id, grouped_options_for_select(@created_or_liked_recipes_options))%>
     <%= f.submit %>
     <% end %>
 <% end %>
