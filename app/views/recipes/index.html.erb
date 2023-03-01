@@ -1,4 +1,7 @@
 <h1>Recipes</h1>
+<% if current_user %>
+
+
 <h4>Your recipes:</h4>
 <ul>
 <% @user_recipes.each do |r|%>
@@ -14,3 +17,13 @@
 <% end %>
 </ul>
 <%= link_to "Discover new recipes", "/discover"%>
+
+<% else %>
+    <h4>Public Recipes</h4>
+    <ul>
+    <% @user_recipes.each do |r|%>
+        <li><%= link_to r.name, r %></li>
+    <% end %>
+    </ul>
+    <h4><%= link_to "Sign In", "/users/sign_in"%> To get started creating and saving recipes.</h4>
+<% end %>

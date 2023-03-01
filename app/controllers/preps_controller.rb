@@ -5,11 +5,14 @@ class PrepsController < ApplicationController
     def show
         @prep = Prep.find(params[:id])
         @recipes = @prep.recipes
-        liked_or_saved = current_user.recipes + current_user.liked_recipes
-        @user_recipes_options = liked_or_saved.map{|r| [r.name, r.id]}
         @ingredients = @prep.ingredients_lists
-        @owned = (@prep.user_id == current_user.id)
-        @saved = SavedPrep.where(user_id: current_user.id, prep_id: @prep.id).any?
+        if current_user 
+            liked_or_saved = current_user.recipes + current_user.liked_recipes
+            @user_recipes_options = liked_or_saved.map{|r| [r.name, r.id]}
+            @owned = (@prep.user_id == current_user.id)
+            @saved = SavedPrep.where(user_id: current_user.id, prep_id: @prep.id).any?
+        end
+        
     end
     def create
         @prep = current_user.preps.build(prep_params)
@@ -20,8 +23,12 @@ class PrepsController < ApplicationController
         end
     end
     def index
-        @preps = current_user.preps
-        @liked_preps = current_user.liked_preps
+        if @current_user
+            @preps = current_user.preps
+            @liked_preps = current_user.liked_preps
+        else
+            @preps = Prep.where(public: true)
+        end
     end
     def update
         

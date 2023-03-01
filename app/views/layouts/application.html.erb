@@ -11,11 +11,19 @@
   </head>
 
   <body>
+    <div class="header">
+    <% if current_user %>
     <%= form_with url: '/users/sign_out', method: "DELETE" do |f| %>
       <%= f.submit "Log out" %>
     <% end %>
+    <% else %>
+      <%= link_to "sign in", "users/sign_in"%>
+    <% end %>
     <%= link_to "my preps", preps_path %>
     <%= link_to "my recipes", recipes_path %>
+    </div>
+    <div class="main-body">
     <%= yield %>
+    </div>
   </body>
 </html>

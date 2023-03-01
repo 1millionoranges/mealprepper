@@ -1,16 +1,17 @@
 <h2><%=@prep.name%></h1>
-<% if !@saved %>
-    <%= form_with url: "/saved_preps" do |f| %>
-        <%= f.hidden_field "prep", name: "saved_prep_id", value: @prep.id%>
-        <%= f.submit "Save Prep" %>
-    <% end %>
-<% else %>
-    <%= form_with url: "/saved_preps", method: "DELETE" do |f| %>
-        <%= f.hidden_field "prep", name: "saved_prep_id", value: @prep.id%>
-        <%= f.submit "Unsave Prep" %>
+<% if current_user %>
+    <% if !@saved %>
+        <%= form_with url: "/saved_preps" do |f| %>
+            <%= f.hidden_field "prep", name: "saved_prep_id", value: @prep.id%>
+            <%= f.submit "Save Prep" %>
+        <% end %>
+    <% else %>
+        <%= form_with url: "/saved_preps", method: "DELETE" do |f| %>
+            <%= f.hidden_field "prep", name: "saved_prep_id", value: @prep.id%>
+            <%= f.submit "Unsave Prep" %>
+        <% end %>
     <% end %>
 <% end %>
-
 
 
 <% if @owned %>
@@ -43,7 +44,8 @@
     <%= f.submit %>
     <% end %>
 <% end %>
-<ul>Ingredients needed for this prep:
+<h4>Ingredients needed for this prep:</h4>
+<ul>
 <% @ingredients.each do |i| %>
 <li> <%= Ingredient.find(i.ingredient_id).name %> 
     <%= ", " + i.amount.to_s if i.amount %> 

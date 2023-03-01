@@ -13,13 +13,18 @@ class RecipesController < ApplicationController
     def show
         @recipe = Recipe.find(params[:id])
         @ingredients_list = @recipe.ingredients_lists
-        @owned = (@recipe.user_id == current_user.id)
-        p SavedRecipe.where(recipe_id: @recipe.id, user_id: current_user.id)
-        @saved = SavedRecipe.where(recipe_id: @recipe.id, user_id: current_user.id).any?
+        if current_user
+            @owned = (@recipe.user_id == current_user.id)
+            @saved = SavedRecipe.where(recipe_id: @recipe.id, user_id: current_user.id).any?
+        end
     end
     def index
-        @user_recipes = current_user.recipes
-        @liked_recipes = current_user.liked_recipes
+        if current_user
+            @user_recipes = current_user.recipes
+            @liked_recipes = current_user.liked_recipes
+        else
+            @user_recipes = Recipe.where(public: true)
+        end
     end
     def public_index
         @recipes = Recipe.where(public: true)
