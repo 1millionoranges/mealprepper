@@ -1,4 +1,8 @@
 class PrepsController < ApplicationController
+    before_action :owned_by_current_user?, only: [:create, :update]
+
+
+
     def new
         @prep = current_user.preps.build()
     end
@@ -65,7 +69,11 @@ class PrepsController < ApplicationController
     def prep_params
         params.require(:prep).permit(:name)
     end
-    def user_owned
 
+    def owned_by_current_user?
+        if current_user
+            Prep.find(params[:id]).user_id == current_user.id
+        end
+        return false
     end
 end

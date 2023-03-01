@@ -1,4 +1,5 @@
 class RecipesController < ApplicationController
+    before_action :owned_by_current_user?, only: [:create, :update]
     def new
         @recipe = current_user.recipes.build()
     end
@@ -55,5 +56,11 @@ class RecipesController < ApplicationController
     end
     def new_ingredient_params
         params.require(:recipe).permit(newingredient: [:name, :unit, :amount])
+    end
+    def owned_by_current_user?
+        if current_user
+            Recipe.find(params[:id]).user_id == current_user.id
+        end
+        return false
     end
 end
