@@ -9,8 +9,7 @@ To get started, create an account by visiting '/users/sign_in' or by clicking th
 Creating Recipes:
     To create a new recipe, make sure you are logged in and navigate to '/recipes/new' by clicking on the new recipe button at the bottom of the 'my recipes' section.
     Enter the name of the recipe and the steps needed to execute it and click create.
-    Next, click on the edit recipe button and add an ingredient that you need to make the recipe, then click update recipe.
-    Repeat adding ingredient process until all the ingredients are added.
+    Next, click on the edit recipe button. Add the first ingredient needed for the recipe and click "Add ingredient". Repeat this process until all needed ingredients are added.
     If you would like this recipe to be discoverable by others, check the box to make the recipe public in this edit screen.
     Congratulations, You have created a recipe!
 
