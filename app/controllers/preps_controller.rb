@@ -23,7 +23,7 @@ class PrepsController < ApplicationController
         end
     end
     def index
-        if @current_user
+        if current_user
             @preps = current_user.preps
             @liked_preps = current_user.liked_preps
         else
