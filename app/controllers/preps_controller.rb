@@ -1,5 +1,5 @@
 class PrepsController < ApplicationController
-    before_action :owned_by_current_user?, only: [:create, :update]
+    before_action :owned_by_current_user?, only: [:update]
 
 
 
@@ -23,8 +23,10 @@ class PrepsController < ApplicationController
     def create
         @prep = current_user.preps.build(prep_params)
         if @prep.save
+            flash[:success] = "Prep creation successful"
             redirect_to @prep
         else
+            flas[:failure] = "Something went wrong"
             render :new, status: :unprocessable_entity
         end
     end
@@ -55,6 +57,7 @@ class PrepsController < ApplicationController
                 recipe = Recipe.find_by(name: params[:recipe_name])
                 recipe_list = RecipeList.where(prep_id: @prep.id, recipe_id: recipe.id)
                 RecipeList.delete(recipe_list.first)
+                flash[:success] = "Recipe removed successfully"
                 redirect_to @prep
             else
                 

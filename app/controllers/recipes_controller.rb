@@ -1,13 +1,15 @@
 class RecipesController < ApplicationController
-    before_action :owned_by_current_user?, only: [:create, :update]
+    before_action :owned_by_current_user?, only: [:update]
     def new
         @recipe = current_user.recipes.build()
     end
     def create
         @recipe = current_user.recipes.build(recipe_params)
         if @recipe.save
+            flash[:success] = "Recipe creation successful"
             redirect_to @recipe
         else
+            flash[:failure] = "Something went wrong"
             render :new, status: :unprocessable_entity
         end
     end
@@ -40,14 +42,12 @@ class RecipesController < ApplicationController
         @recipe.update(recipe_params)
         if params[:commit] == "Add ingredient"
             ni_params = new_ingredient_params
-            p ni_params
             ni_params[:ingredients_list][:ingredient_id] = Ingredient.find_or_create_by(name: ni_params[:ingredients_list][:name]).id
             ni_params[:ingredients_list][:recipe_id] = @recipe.id
             ni_params[:ingredients_list].delete(:name)
 
             @il = IngredientsList.new(ni_params[:ingredients_list])
-            p @il
-            @il.save
+            flash[:success] = "Ingredient added" if @il.save
             redirect_to edit_recipe_path(@recipe)
         else
             redirect_to @recipe

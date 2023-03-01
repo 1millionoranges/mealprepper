@@ -23,6 +23,9 @@
     <%= link_to "my recipes", recipes_path %>
     </div>
     <div class="main-body">
+    <% flash.each do |f| %>
+    <h4 class=<%=f[0]%>><%=f[1]%></h4>
+    <% end %>
     <%= yield %>
     </div>
   </body>
